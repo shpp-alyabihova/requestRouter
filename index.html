@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coderunner</title>
     <style>
-      body{
+      body {
+        overflow: hidden;
         color: #dedede;
         margin: 0;
         padding: 0;
         font-family: sans-serif;
       }
-      .clearfix::after{
+      .clearfix::after {
         content: '';
         display: table;
         clear: both;
@@ -91,18 +92,28 @@
         font-weight: normal;
       }
 
-      form > * , #response{
-          width: 265px;
+      form {
+        width: 70em;
+      }
+
+      form .col > * , #response {
+          margin-top: 1em;
+          width: 100%;
           display: block;
-          margin: 1em auto;
-          padding: 7px 10px;
+          padding: .7em 1em;
           background-color: rgb(225, 225, 225);
           border-width: 0;
       }
 
+      .center {
+        margin: 1em auto;
+      }
+
       #submit, #reset {
+          font-size: 1em;
+          padding: .7em 2em;
           display: inline-block;
-          width: 80px;
+          width: 10em;
           background: linear-gradient(#3A78A1 0%, #2c3e50 100%);
           border-radius: 5px;
           color: #eeedf5;
@@ -113,12 +124,23 @@
           color: white;
       }
 
-      #code{
-          width: 90%;
+      #code {
+          resize: none;
+          height: 8em
       }
 
       #response {
           width: 100%;
+      }
+
+      #btns {
+        width: 21em;
+      }
+
+      .col {
+        width: 30em;
+        margin: 0 2em;
+        float: left;
       }
 
     </style>
@@ -135,16 +157,35 @@
             </nav>
         </div>
     </header>
-          <div class="h1">Coderunner  send request</div>
-            <form>
-                <input type="text" id="code" placeholder="import java.util.Scanner;\n public class test {\n public static void main(String[] args) {\nScanner in = new Scanner(System.in);\nint a = in.nextInt();\nint b = in.nextInt();\nSystem.out.print(a+b);\n}}">
-                <input type="text" id="tc_1" placeholder="2 4 (required values separated with a space)">
-                <input type="text" id="tc_2"  placeholder="4 5 (required values separated with a space)">
-                <input type="text" id="lang"  placeholder="java">
-                <input type="submit" value="Submit" id="submit">
-                <input type="reset" value="Reset" id="reset">
-            </form>
-            <textarea id="response" name="res" rows="20"></textarea>
+
+    <div class="h1">Coderunner  send request</div>
+    <form class="center">
+      <div class="center clearfix">
+        <div class="col">
+          <textarea type="text" id="code" placeholder="Enter some code here">import java.util.Scanner;
+public class test {
+  public static void main(String[] args) {
+    Scanner in = new Scanner(System.in);
+    int a = in.nextInt();
+    int b = in.nextInt();
+    System.out.print(a+b);
+  }
+}</textarea>
+        </div>
+        <div class="col">
+          <input type="text" id="tc_1" value="2 4" placeholder="required values separated with a space">
+          <input type="text" id="tc_2" value="4 5" placeholder="required values separated with a space">
+          <input type="text" id="lang" value="cpp" placeholder="Enter language">
+        </div>
+      </div>
+
+      <div id="btns" class="center">
+        <input type="submit" value="Submit" id="submit">
+        <input type="reset" value="Reset" id="reset">
+      </div>
+
+    </form>
+    <textarea id="response" name="res" rows="20" readonly></textarea>
 
     <footer>
         <div class="footer-page">
@@ -173,7 +214,7 @@
         var submit = document.getElementById('submit');
         var submit_width = submit.offsetWidth;
         var w = width/2 - submit_width + "px";
-        submit.style.marginLeft = w;
+        // submit.style.marginLeft = w;
         var responseField = document.getElementById('response');
 
         submit.addEventListener('click', function(e) {
