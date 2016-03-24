@@ -2,8 +2,8 @@
   "name": "requestRender",
   "version": "0.0.1",
   "dependencies": {
-    "body-parser": "*",
-    "express": "*",
-    "request": "*"
+	"body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "request": "^2.69.0"
   }
 }
