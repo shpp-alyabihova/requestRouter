@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="./vendor/codemirror/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="./vendor/codemirror/theme/material-dark.css">
+    <script src="vendor/codemirror/codemirror.js"></script>
+    <script src="vendor/codemirror/mode/javascript.js"></script>
+    <script src="vendor/codemirror/mode/clike.js"></script>
+    <script src="vendor/codemirror/keymap/sublime.js"></script>
     <title>Coderunner</title>
     <style>
         @font-face {
@@ -65,7 +72,7 @@
         .h1 {
             text-align: center;
             padding: 10px 0;
-            font-size: 2.5em;
+            font-size: 2.2em;
             font-weight: bold;
         }
         .load {
@@ -289,14 +296,35 @@ For example:
     </div>
 </footer>
 <script type="text/javascript">
+    var modes = {
+        'cpp' : 'text/x-c++src',
+        'java': 'text/x-java',
+        'js'  : 'text/javascript'
+    };
     var submit = document.getElementById('submit');
     var responseField = document.getElementById('response');
+    var language = document.getElementById('lang');
+    var $code = document.getElementById('code');
+
+    var editor = CodeMirror.fromTextArea($code, {
+        lineNumbers : true,
+        lineWrapping: true,
+        theme       : "material-dark",
+        mode        : "text/x-c++src",
+        keyMap      : "sublime",
+        indentUnit  : 4
+    });
+
+    language.onchange = function(){
+        console.log("new lang", language.value);
+        editor.setOption("mode", modes[language.value]);
+    };
     submit.addEventListener('click', function(e) {
         responseField.innerHTML = '';
         responseField.className = "load";
         e.preventDefault();
         var request = {"userName": "username"};
-        request.language = document.getElementById('lang').value;
+        request.language = language.value;
         var code = document.getElementById('code').value;
         request.code = code.replace(/\\n/g,'\n');
         var stdin = document.getElementById('test-cases').value;
